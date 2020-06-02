@@ -1,0 +1,6 @@
+**/*.gz
+**/data_sets/
+**/model/
+**/*.zip
+**/__pycache__/
+/.idea/
