@@ -1,2 +1,3 @@
-# paddle-and-pytorch-practice
-项目包括一些常见入门项目实战以及一些论文实现等
+**数据集：**
+
+https://gotpl.cowtransfer.com/s/42d4f64922f846  取件码：ca7wj2
