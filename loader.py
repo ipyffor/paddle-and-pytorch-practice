@@ -1,10 +1,11 @@
 import torch
 import torchvision
 from torch.utils.data import DataLoader
+import os
 
 
-def get_loader(batch_size, shuffle = False, num_workers = 0,transform = None, train=True, download = False):
-    dataset = torchvision.datasets.CIFAR10('./data_sets', train=train, download=download, transform=transform)
+def get_loader(path,batch_size, shuffle = False, num_workers = 0,transform = None, train=True, download = False):
+    dataset = torchvision.datasets.CIFAR10(path, train=train, download=download, transform=transform)
     loader = DataLoader(dataset, batch_size=batch_size, shuffle=shuffle, num_workers=num_workers)
     return loader
 

@@ -2,6 +2,7 @@ import torch
 from torchvision import transforms
 from loader import get_loader
 from trainer import Trainer
+import os
 
 EPOCHS = 200
 BATCH_SIZE = 128
@@ -22,9 +23,9 @@ def data_loader():
         transforms.ToTensor(),
         transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
     ])
-
-    train_loader = get_loader(BATCH_SIZE, shuffle=True, num_workers=2, transform = transform_train, train=True)
-    test_loader = get_loader(BATCH_SIZE, shuffle=False, num_workers=2, transform=transform_test, train=False)
+    download = False if os.path.exists(sets_path) else True
+    train_loader = get_loader(sets_path,BATCH_SIZE, shuffle=True, num_workers=2, transform = transform_train, train=True, download=download)
+    test_loader = get_loader(sets_path,BATCH_SIZE, shuffle=False, num_workers=2, transform=transform_test, train=False)
     return train_loader, test_loader
 
 train_loader, test_loader = data_loader()
@@ -48,7 +49,7 @@ def train(epoch):
         avg_loss = loss_sum/id
         acc = correct/total
         # print(correct, total)
-        print('Train ==> Epoch: {}, loss: {}, acc: {}'.format(epoch, avg_loss, acc))
+        print('Train ==> Epoch: {}, id: {}, loss: {}, acc: {}'.format(epoch, id, avg_loss, acc))
         ## 更新
         trainer.train_update()
     trainer.save_model(fname='resnet_epoch{}.pth'.format(epoch))
