@@ -5,3 +5,4 @@
 **/__pycache__/
 /.idea/
 **/.gzip
+**/sets_path.py

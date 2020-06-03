@@ -4,8 +4,8 @@ from utils import load_object_from_zip
 import paddle.fluid as fluid
 import numpy as np
 import cv2
-import paddle.dataset.cifar as cifar
-cifar.train10()
+# import paddle.dataset.cifar as cifar
+# cifar.train10()
 class MyDataset(fluid.io.Dataset):
     def __init__(self, path):
         super(MyDataset, self).__init__()

@@ -2,12 +2,13 @@ from paddle import fluid
 from paddle.fluid import layers
 from reader import get_loader
 from trainer import ClassifyTrainner
+from sets_path import *
 
 epochs = 200
 batch_size = 128
 lr = 0.001
 use_gpu = True
-sets_path = '/home/aistudio/data/data37952'
+sets_path = sets_path
 model_path = './model'
 from time import time
 
