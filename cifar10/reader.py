@@ -7,9 +7,13 @@ import cv2
 # import paddle.dataset.cifar as cifar
 # cifar.train10()
 class MyDataset(fluid.io.Dataset):
-    def __init__(self, path):
+    def __init__(self, path, transform = None, target_transform = None):
         super(MyDataset, self).__init__()
+        self.transform = transform
+        self.target_transform = target_transform
         self.images, self.labels = load_object_from_zip(path)
+
+
     def __len__(self):
         len_images = len(self.images)
         assert len_images == len(self.labels)
@@ -18,17 +22,17 @@ class MyDataset(fluid.io.Dataset):
         image = self.images[index]
         label = self.labels[index]
         image = np.reshape(image, [3, 32, 32])
-        image = self.normlize(image)
+        image = image.transpose([1, 2, 0])
+        if self.transform is not None:
+            image = self.transform(image)
+        if self.target_transform is not None:
+            label = self.target_transform(label)
+        image = image.transpose([2, 0, 1])
         return image, label
-    def normlize(self, images):
-        mean = 0.5
-        std = 0.5
-        images = (images-mean)/std
-        return images
 
 
-def get_loader(path, batch_size, shuffle = True, num_workers=0, places = None):
-    dataset = MyDataset(path)
+def get_loader(path, batch_size, shuffle = True, transform = None, target_transform = None,num_workers=0, places = None):
+    dataset = MyDataset(path,transform = transform, target_transform = target_transform)
     # loader = fluid.io.DataLoader.from_generator(capacity=10, use_multiprocess=True)
     # loader.set_sample_list_generator(dataset, places=places)
     loader = fluid.io.DataLoader(dataset, batch_size=batch_size, shuffle=shuffle, num_workers=num_workers, return_list=True,places=places)
